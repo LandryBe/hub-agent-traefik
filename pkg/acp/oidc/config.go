@@ -29,7 +29,7 @@ type Config struct {
 	LogoutURL   string            `json:"logoutUrl,omitempty"`
 	AuthParams  map[string]string `json:"authParams,omitempty"`
 
-	Key         string      `json:"key"`
+	Key         string      `json:"-"`
 	StateCookie StateCookie `json:"stateCookie,omitempty"`
 	Session     Session     `json:"session,omitempty"`
 
