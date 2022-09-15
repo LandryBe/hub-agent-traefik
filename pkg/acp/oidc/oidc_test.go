@@ -55,6 +55,7 @@ func TestNewMiddlewareFromSource_ValidatesConfiguration(t *testing.T) {
 				Session: Session{
 					Secret: "secret1234567890",
 				},
+				Key: "1234567891234567",
 			},
 			wantErr: "validate configuration: missing issuer",
 		},
@@ -71,6 +72,7 @@ func TestNewMiddlewareFromSource_ValidatesConfiguration(t *testing.T) {
 				Session: Session{
 					Secret: "secret1234567890",
 				},
+				Key: "1234567891234567",
 			},
 			wantErr: "validate configuration: missing client ID",
 		},
@@ -87,8 +89,43 @@ func TestNewMiddlewareFromSource_ValidatesConfiguration(t *testing.T) {
 				Session: Session{
 					Secret: "secret1234567890",
 				},
+				Key: "1234567891234567",
 			},
 			wantErr: "validate configuration: missing client secret",
+		},
+		{
+			desc: "empty Key",
+			cfg: &Config{
+				Issuer:       "foo",
+				ClientID:     "bar",
+				ClientSecret: "bat",
+				RedirectURL:  "test",
+				StateCookie: StateCookie{
+					Secret: "secret1234567890",
+				},
+				Session: Session{
+					Secret: "secret1234567890",
+				},
+				Key: "",
+			},
+			wantErr: "validate configuration: missing key",
+		},
+		{
+			desc: "wrong Key",
+			cfg: &Config{
+				Issuer:       "foo",
+				ClientID:     "bar",
+				ClientSecret: "bat",
+				RedirectURL:  "test",
+				StateCookie: StateCookie{
+					Secret: "secret1234567890",
+				},
+				Session: Session{
+					Secret: "secret1234567890",
+				},
+				Key: "1234",
+			},
+			wantErr: "validate configuration: key must be 16, 24 or 32 characters long",
 		},
 	}
 
@@ -645,15 +682,15 @@ func buildHandler(t *testing.T) *Handler {
 		},
 	)
 
-	stateBlock, err := aes.NewCipher([]byte("secret1234567890"))
+	block, err := aes.NewCipher([]byte("secret1234567890"))
 	require.NoError(t, err)
 
 	return &Handler{
-		name:       "test",
-		stateBlock: stateBlock,
-		rand:       newRandom(),
-		client:     newHTTPClient(),
-		verifier:   verifier,
+		name:     "test",
+		block:    block,
+		rand:     newRandom(),
+		client:   newHTTPClient(),
+		verifier: verifier,
 	}
 }
 
