@@ -32,7 +32,6 @@ func TestCookieSessionStore_Delete(t *testing.T) {
 	require.NoError(t, err)
 
 	store := NewCookieSessionStore("test-name", block, &Session{
-		Secret:   "secret1234567890",
 		Path:     "/",
 		Domain:   "example.com",
 		SameSite: "lax",
@@ -75,7 +74,6 @@ func TestCookieSessionStore_RemoveCookieOnlyRemovesOurCookie(t *testing.T) {
 	require.NoError(t, err)
 
 	store := NewCookieSessionStore("test-name", block, &Session{
-		Secret:   "secret1234567890",
 		Path:     "/",
 		Domain:   "example.com",
 		SameSite: "lax",
@@ -111,7 +109,6 @@ func TestCookieSessionStore_Create(t *testing.T) {
 	require.NoError(t, err)
 
 	store := NewCookieSessionStore("test-name", block, &Session{
-		Secret:   "secret1234567890",
 		Path:     "/",
 		Domain:   "example.com",
 		SameSite: "lax",
@@ -136,7 +133,6 @@ func TestCookieSessionStore_CreateCanChunkCookies(t *testing.T) {
 	require.NoError(t, err)
 
 	store := NewCookieSessionStore("test-name", block, &Session{
-		Secret:   "secret1234567890",
 		Path:     "/",
 		Domain:   "example.com",
 		SameSite: "lax",
@@ -176,7 +172,6 @@ func TestCookieSessionStore_Update(t *testing.T) {
 	require.NoError(t, err)
 
 	store := NewCookieSessionStore("test-name", block, &Session{
-		Secret:   "secret1234567890",
 		Path:     "/",
 		Domain:   "example.com",
 		SameSite: "lax",
@@ -200,9 +195,7 @@ func TestCookieSessionStore_Get(t *testing.T) {
 	block, err := aes.NewCipher([]byte("secret1234567890"))
 	require.NoError(t, err)
 
-	store := NewCookieSessionStore("test-name", block, &Session{
-		Secret: "secret1234567890",
-	}, RandrMock{}, 200)
+	store := NewCookieSessionStore("test-name", block, &Session{}, RandrMock{}, 200)
 
 	req := httptest.NewRequest(http.MethodGet, "http://foo.bar", nil)
 	req.AddCookie(&http.Cookie{
@@ -221,9 +214,7 @@ func TestCookieSessionStore_GetHandlesChunkedCookies(t *testing.T) {
 	block, err := aes.NewCipher([]byte("secret1234567890"))
 	require.NoError(t, err)
 
-	store := NewCookieSessionStore("test-name", block, &Session{
-		Secret: "secret1234567890",
-	}, RandrMock{}, 200)
+	store := NewCookieSessionStore("test-name", block, &Session{}, RandrMock{}, 200)
 
 	req := httptest.NewRequest(http.MethodGet, "http://foo.bar", nil)
 	req.AddCookie(&http.Cookie{
@@ -250,9 +241,7 @@ func TestCookieSessionStore_GetReturnsNilIfNoSessionExists(t *testing.T) {
 	block, err := aes.NewCipher([]byte("secret1234567890"))
 	require.NoError(t, err)
 
-	store := NewCookieSessionStore("test-name", block, &Session{
-		Secret: "secret1234567890",
-	}, RandrMock{}, 200)
+	store := NewCookieSessionStore("test-name", block, &Session{}, RandrMock{}, 200)
 
 	req := httptest.NewRequest(http.MethodGet, "http://foo.bar", nil)
 

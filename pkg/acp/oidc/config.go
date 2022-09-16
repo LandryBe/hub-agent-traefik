@@ -115,7 +115,6 @@ type TLS struct {
 
 // StateCookie holds state cookie configuration.
 type StateCookie struct {
-	Secret   string `json:"secret,omitempty"`
 	SameSite string `json:"sameSite,omitempty"`
 	Secure   bool   `json:"secure,omitempty"`
 	Domain   string `json:"domain,omitempty"`
@@ -124,7 +123,6 @@ type StateCookie struct {
 
 // Session holds session configuration.
 type Session struct {
-	Secret   string `json:"secret,omitempty"`
 	SameSite string `json:"sameSite,omitempty"`
 	Secure   bool   `json:"secure,omitempty"`
 	Domain   string `json:"domain,omitempty"`
