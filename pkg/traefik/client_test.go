@@ -48,7 +48,7 @@ func TestMTLS(t *testing.T) {
 	require.NoError(t, err)
 
 	ts := httptest.NewUnstartedServer(mux)
-	ts.TLS = &tls.Config{ //nolint:gosec // No need to crypto randomness in this test.
+	ts.TLS = &tls.Config{
 		Certificates: []tls.Certificate{serverCertificate},
 		ClientCAs:    caPool,
 		ServerName:   "proxy.traefik",
