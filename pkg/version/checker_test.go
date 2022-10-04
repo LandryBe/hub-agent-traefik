@@ -60,6 +60,7 @@ func TestChecker_check(t *testing.T) {
 			latestVersion := "v0.5.0"
 
 			h := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+				assert.Equal(t, "/repos/traefik/hub-agent-traefik/tags", req.URL.Path)
 				assert.Equal(t, version, req.Header.Get("Traefik-Hub-Agent-Version"))
 				assert.Equal(t, "docker", req.Header.Get("Traefik-Hub-Agent-Platform"))
 

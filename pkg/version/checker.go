@@ -131,7 +131,7 @@ func (c Checker) getStatus(ctx context.Context) (Status, error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	tags, resp, err := c.github.Repositories.ListTags(ctx, "traefik", "hub-agent-kubernetes", nil)
+	tags, resp, err := c.github.Repositories.ListTags(ctx, "traefik", "hub-agent-traefik", nil)
 	if err != nil {
 		return Status{}, fmt.Errorf("list tags: %w", err)
 	}
